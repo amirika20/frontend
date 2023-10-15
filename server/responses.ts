@@ -1,8 +1,9 @@
-import { User } from "./app";
+import { ObjectId } from "mongodb";
+import { Post, User } from "./app";
+import { CommentAuthorNotMatchError, CommentDoc } from "./concepts/comment";
 import { AlreadyFriendsError, FriendNotFoundError, FriendRequestAlreadyExistsError, FriendRequestDoc, FriendRequestNotFoundError } from "./concepts/friend";
 import { PostAuthorNotMatchError, PostDoc } from "./concepts/post";
 import { Router } from "./framework/router";
-
 /**
  * This class does useful conversions for the frontend.
  * For example, it converts a {@link PostDoc} into a more readable format for the frontend.
@@ -28,6 +29,27 @@ export default class Responses {
   }
 
   /**
+   * Convert CommentDoc into more readable format for the frontend by converting the author id into a username and a post if to a content.
+   */
+  static async comment(comment: CommentDoc | null) {
+    if (!comment) {
+      return comment;
+    }
+    const author = await User.getUserById(comment.author);
+    const target = await Post.getPostById(comment.target);
+    return { ...comment, author: author.username, target: target.content };
+  }
+
+  /**
+   * Same as {@link comment} but for an array of CommentDoc for improved performance.
+   */
+  static async comments(comments: CommentDoc[]) {
+    const authors = await User.idsToUsernames(comments.map((comment) => comment.author));
+    const targets = await Post.idsToPost(comments.map((comment) => new ObjectId(comment.target)));
+    return comments.map((comment, i) => ({ ...comment, author: authors[i], target: targets[i] }));
+  }
+
+  /**
    * Convert FriendRequestDoc into more readable format for the frontend
    * by converting the ids into usernames.
    */
@@ -40,6 +62,11 @@ export default class Responses {
 }
 
 Router.registerError(PostAuthorNotMatchError, async (e) => {
+  const username = (await User.getUserById(e.author)).username;
+  return e.formatWith(username, e._id);
+});
+
+Router.registerError(CommentAuthorNotMatchError, async (e) => {
   const username = (await User.getUserById(e.author)).username;
   return e.formatWith(username, e._id);
 });
