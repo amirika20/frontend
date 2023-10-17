@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { fetchy } from "../../utils/fetchy";
 import { formatDate } from "../../utils/formatDate";
 
-const props = defineProps(["comment"]);
+const props = defineProps(["comment", "post"]);
 const content = ref(props.comment.content);
 const emit = defineEmits(["editPost", "refreshPosts"]);
 
