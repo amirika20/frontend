@@ -22,20 +22,21 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <header>
+  <header style="padding-bottom: 100px">
+    <RouterView />
     <nav>
       <div class="title">
         <img src="@/assets/images/logo.svg" />
         <RouterLink :to="{ name: 'Home' }">
-          <h1>Social Media App</h1>
+          <h1>Pen & Pixel</h1>
         </RouterLink>
       </div>
       <ul>
         <li>
-          <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
+          <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> <i class="fa fa-home"></i> </RouterLink>
         </li>
         <li v-if="isLoggedIn">
-          <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> Settings </RouterLink>
+          <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> <i class="fa fa-gear"></i> </RouterLink>
         </li>
         <li v-else>
           <RouterLink :to="{ name: 'Login' }" :class="{ underline: currentRouteName == 'Login' }"> Login </RouterLink>
@@ -46,7 +47,6 @@ onBeforeMount(async () => {
       <p>{{ toast.message }}</p>
     </article>
   </header>
-  <RouterView />
 </template>
 
 <style scoped>
@@ -57,6 +57,9 @@ nav {
   background-color: lightgray;
   display: flex;
   align-items: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 h1 {

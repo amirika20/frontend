@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CreateCommentForm from "@/components/Comment/CreateCommentForm.vue";
 import CreatePostForm from "@/components/Post/CreatePostForm.vue";
 import EditPostForm from "@/components/Post/EditPostForm.vue";
 import PostComponent from "@/components/Post/PostComponent.vue";
@@ -13,6 +14,7 @@ const { isLoggedIn } = storeToRefs(useUserStore());
 const loaded = ref(false);
 let posts = ref<Array<Record<string, string>>>([]);
 let editing = ref("");
+let commenting = ref("");
 let searchAuthor = ref("");
 
 async function getPosts(author?: string) {
@@ -29,6 +31,10 @@ async function getPosts(author?: string) {
 
 function updateEditing(id: string) {
   editing.value = id;
+}
+
+function updateCommenting(id: string) {
+  commenting.value = id;
 }
 
 onBeforeMount(async () => {
@@ -49,8 +55,9 @@ onBeforeMount(async () => {
   </div>
   <section class="posts" v-if="loaded && posts.length !== 0">
     <article v-for="post in posts" :key="post._id">
-      <PostComponent v-if="editing !== post._id" :post="post" @refreshPosts="getPosts" @editPost="updateEditing" />
-      <EditPostForm v-else :post="post" @refreshPosts="getPosts" @editPost="updateEditing" />
+      <PostComponent v-if="editing !== post._id && commenting !== post._id" :post="post" @refreshPosts="getPosts" @editPost="updateEditing" @createComment="updateCommenting" />
+      <EditPostForm v-else-if="editing === post._id" :post="post" @refreshPosts="getPosts" @editPost="updateEditing" />
+      <CreateCommentForm v-else-if="commenting === post._id" :post="post" @refreshPosts="getPosts" @createComment="updateCommenting" />
     </article>
   </section>
   <p v-else-if="loaded">No posts found</p>
