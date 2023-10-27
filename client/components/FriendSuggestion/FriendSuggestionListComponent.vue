@@ -13,6 +13,11 @@ let suggestions = ref<Array<Record<string, string>>>([]);
 const getSuggestions = async () => {
   let suggestionResults;
   try {
+    await fetchy("/api/friendSug", "PATCH", {});
+  } catch (_) {
+    return;
+  }
+  try {
     suggestionResults = await fetchy("/api/friendSug", "GET", {});
   } catch {
     return;
