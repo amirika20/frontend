@@ -42,7 +42,9 @@ export default class TagConcept {
 
   async update(user: ObjectId, content: string) {
     const tags = await this.generateTags(content);
-    await this.tags.updateOne({ user }, { userTags: tags });
+    const oldTags = (await this.getByUser(user)).userTags;
+    const newTags = Array.from(new Set(oldTags.concat(tags!)));
+    await this.tags.updateOne({ user }, { userTags: newTags });
     return { msg: "Tags successfully updated!" };
   }
 
@@ -82,7 +84,7 @@ export default class TagConcept {
     const generatedTopics = topicsArr_?.map((str) => str.toLowerCase());
 
     // Match generated topics with default tags and create result object
-    const result = generatedTopics?.filter((tag) => this.defaultTags.includes(tag));
-    return result;
+    // const result = generatedTopics?.filter((tag) => this.defaultTags.includes(tag));
+    return generatedTopics;
   }
 }

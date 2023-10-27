@@ -5,7 +5,7 @@ import { fetchy } from "../../utils/fetchy";
 import { formatDate } from "../../utils/formatDate";
 
 const props = defineProps(["comment"]);
-const emit = defineEmits(["editComment", "refreshComments", "refreshPosts"]);
+const emit = defineEmits(["editComment", "refreshComments"]);
 const { currentUsername } = storeToRefs(useUserStore());
 
 const deleteComment = async () => {
@@ -15,12 +15,13 @@ const deleteComment = async () => {
     return;
   }
   emit("refreshComments");
-  emit("refreshPosts");
 };
 </script>
 
 <template>
-  <p class="author">{{ props.comment.author }}</p>
+  <p class="author">
+    <RouterLink :to="{ name: 'Profile', params: { username: props.comment.author } }" class="Profile"> {{ props.comment.author }} </RouterLink>
+  </p>
   <p>{{ props.comment.content }}</p>
   <div class="base">
     <menu v-if="props.comment.author == currentUsername">

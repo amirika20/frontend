@@ -4,7 +4,7 @@ import { fetchy } from "../../utils/fetchy";
 
 const props = defineProps(["comment", "post"]);
 const content = ref("");
-const emit = defineEmits(["createComment", "refreshPosts"]);
+const emit = defineEmits(["createComment", "refreshPosts", "editComments"]);
 
 const createComment = async (content: string) => {
   try {
@@ -15,7 +15,6 @@ const createComment = async (content: string) => {
     return;
   }
   emit("createComment");
-  emit("refreshPosts");
 };
 </script>
 
@@ -27,7 +26,7 @@ const createComment = async (content: string) => {
     <div class="base">
       <menu>
         <li><button class="btn-small pure-button-primary pure-button" type="submit">Post</button></li>
-        <li><button class="btn-small pure-button" @click="emit('refreshPosts')">Cancel</button></li>
+        <li><button class="btn-small pure-button" @click="emit('editComments')">Cancel</button></li>
       </menu>
     </div>
   </form>

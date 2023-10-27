@@ -23,13 +23,9 @@ export default class PostConcept {
   }
 
   async idsToPost(ids: ObjectId[]) {
-    console.log(ids);
-    console.log({ _id: { $in: ids } });
     const posts = await this.posts.readMany({ _id: { $in: ids } });
-    console.log(posts);
     // Store strings in Map because ObjectId comparison by reference is wrong
     const idToPost = new Map(posts.map((post) => [post._id.toString(), post]));
-    console.log(idToPost);
     return ids.map((id) => idToPost.get(id.toString())?.content ?? "DELETED_USER");
   }
 

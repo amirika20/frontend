@@ -20,9 +20,13 @@ async function delete_() {
 
 <template>
   <main class="column">
-    <h1>Settings for {{ currentUsername }}</h1>
-    <button class="pure-button pure-button-primary" @click="logout">Logout</button>
-    <button class="button-error pure-button" @click="delete_">Delete User</button>
-    <UpdateUserForm />
+    <dev class="setting">
+      <h1>Settings for {{ currentUsername }}</h1>
+      <button class="pure-button pure-button-primary" @click="logout">Logout</button>
+      <button class="button-error pure-button" @click="delete_">Delete User</button>
+      <UpdateUserForm />
+    </dev>
   </main>
 </template>
+
+<script scoped></script>

@@ -226,7 +226,14 @@ class Routes {
   @Router.get("/tags")
   async getTags(session: WebSessionDoc) {
     const user = WebSession.getUser(session);
-    return await Tag.getByUser(user);
+    return (await Tag.getByUser(user)).userTags;
+  }
+
+  @Router.get("/tags/:username")
+  async getTagsByUser(username: string) {
+    const id = (await User.getUserByUsername(username))._id;
+    const tags = await Tag.getByUser(id);
+    return tags;
   }
 
   @Router.get("/tags/others")
@@ -264,7 +271,10 @@ class Routes {
   @Router.get("/friendSug")
   async getFriendSuggestion(session: WebSessionDoc) {
     const user = WebSession.getUser(session);
-    return await FriendSug.getFriendSug(user);
+    const friendSuggestion = (await FriendSug.getFriendSug(user))?.suggestion;
+    const alreadyFriend = await User.idsToUsernames(await Friend.getFriends(user));
+    const filteredSug = friendSuggestion!.filter((friend) => !alreadyFriend.includes(friend));
+    return filteredSug;
   }
 }
 

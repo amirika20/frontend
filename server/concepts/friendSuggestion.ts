@@ -23,7 +23,6 @@ export default class FriendSugConcept {
 
   async isDisabled(user: ObjectId) {
     const suggestion = await this.friendSug.readOne({ user: user });
-    console.log(suggestion);
     if (!suggestion) {
       throw new IsNotEnabledError(user);
     } else {
@@ -33,7 +32,6 @@ export default class FriendSugConcept {
 
   async isEnabled(user: ObjectId) {
     const suggestion = await this.friendSug.readOne({ user: user });
-    console.log(suggestion);
     if (suggestion) {
       throw new AlreadyEnabledError(user);
     } else {
@@ -61,7 +59,6 @@ export default class FriendSugConcept {
         }
       }
     }
-    console.log(suggestion);
     await this.friendSug.updateOne({ user }, { suggestion });
     return { msg: "Generated some Friend Suggestion" };
   }

@@ -5,7 +5,9 @@ import { fetchy } from "../../utils/fetchy";
 
 const props = defineProps(["post"]);
 const loaded = ref(false);
+const commenting = ref("");
 let comments = ref<Array<Record<string, string>>>([]);
+const emit = defineEmits(["refreshPosts"]);
 
 async function getComments() {
   let CommentResults;
@@ -15,6 +17,11 @@ async function getComments() {
     return;
   }
   comments.value = CommentResults;
+  emit("refreshPosts");
+}
+
+function updateCommenting(id: string) {
+  commenting.value = id;
 }
 
 onBeforeMount(async () => {
@@ -26,7 +33,7 @@ onBeforeMount(async () => {
 <template>
   <section class="comments" v-if="loaded && comments.length !== 0">
     <article v-for="comment in comments" :key="comment._id">
-      <CommentComponent :comment="comment" />
+      <CommentComponent :comment="comment" @refreshComments="getComments" @createComment="updateCommenting" />
     </article>
   </section>
   <p v-else-if="loaded">No posts found</p>

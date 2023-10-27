@@ -20,7 +20,10 @@ const deletePost = async () => {
 </script>
 
 <template>
-  <p class="author">{{ props.post.author }}</p>
+  <!-- <p class="author">{{ props.post.author }}</p> -->
+  <p class="author">
+    <RouterLink :to="{ name: 'Profile', params: { username: props.post.author } }" class="Profile"> {{ props.post.author }} </RouterLink>
+  </p>
   <p>{{ props.post.content }}</p>
   <div class="comment">
     <CommentListComponent :post="post" />
@@ -43,6 +46,9 @@ p {
   margin: 0em;
 }
 
+.Profile {
+  text-decoration: none;
+}
 .author {
   font-weight: bold;
   font-size: 1.2em;

@@ -40,12 +40,22 @@ form {
   padding: 1em;
 }
 
-textarea {
+/* textarea {
   font-family: inherit;
   font-size: inherit;
   height: 6em;
   padding: 0.5em;
   border-radius: 4px;
   resize: none;
+} */
+
+textarea {
+  background: url(../../assets/images/notebook.png) repeat-y;
+  width: 600px;
+  height: 300px;
+  font: normal 14px verdana;
+  line-height: 25px;
+  padding: 2px 10px;
+  border: solid 1px #ddd;
 }
 </style>

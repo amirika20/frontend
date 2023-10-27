@@ -2,14 +2,17 @@
 import router from "@/router";
 import { useUserStore } from "@/stores/user";
 import { ref } from "vue";
+import { useFriendStore } from "../../stores/friend";
 
 const username = ref("");
 const password = ref("");
 const { loginUser, updateSession } = useUserStore();
+const { getFriends } = useFriendStore();
 
 async function login() {
   await loginUser(username.value, password.value);
   void updateSession();
+  void getFriends();
   void router.push({ name: "Home" });
 }
 </script>
