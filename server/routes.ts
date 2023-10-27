@@ -33,6 +33,7 @@ class Routes {
     if (user.user?._id) {
       await Point.create(user.user?._id);
       await Tag.create(user.user?._id);
+      await FriendSug.enable(user.user?._id);
     }
     return user;
   }
