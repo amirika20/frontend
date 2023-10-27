@@ -11,7 +11,7 @@ async function getPoint() {
   } catch (_) {
     return;
   }
-  points.value = pointResult;
+  points.value = pointResult.point;
 }
 
 onBeforeMount(async () => {
@@ -20,5 +20,5 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <p>{{ points.point }} points</p>
+  <p>{{ points }} points</p>
 </template>
