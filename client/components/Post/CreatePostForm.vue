@@ -13,6 +13,11 @@ const createPost = async (content: string) => {
   } catch (_) {
     return;
   }
+  try {
+    await fetchy("/api/friendSug", "PATCH", {});
+  } catch (_) {
+    return;
+  }
   emit("refreshPosts");
   emptyForm();
 };
