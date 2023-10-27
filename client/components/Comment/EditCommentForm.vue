@@ -7,7 +7,7 @@ const props = defineProps(["comment", "post"]);
 const content = ref(props.comment.content);
 const emit = defineEmits(["editPost", "refreshPosts"]);
 
-const editPost = async (content: string) => {
+const editComment = async (content: string) => {
   try {
     await fetchy(`/api/posts/${props.comment._id}`, "PATCH", { body: { update: { content: content } } });
   } catch (e) {
@@ -19,7 +19,7 @@ const editPost = async (content: string) => {
 </script>
 
 <template>
-  <form @submit.prevent="editPost(content)">
+  <form @submit.prevent="editComment(content)">
     <p class="author">{{ props.comment.author }}</p>
     <textarea id="content" v-model="content" placeholder="Create a post!" required> </textarea>
     <div class="base">

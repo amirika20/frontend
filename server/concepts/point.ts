@@ -49,7 +49,7 @@ export default class PointConcept {
       if (point.point > 0) {
         return true;
       } else {
-        throw new NotEnoughPointError(point.user);
+        throw new NotAllowedError("You do not enough points to send request. First post!");
       }
     }
   }
@@ -60,14 +60,8 @@ export default class PointConcept {
       if (point.point > 0) {
         return true;
       } else {
-        throw new NotEnoughPointError(point.user);
+        throw new NotAllowedError("You do not enough points to send request. First post!");
       }
     }
-  }
-}
-
-export class NotEnoughPointError extends NotAllowedError {
-  constructor(public readonly user: ObjectId) {
-    super("{0} does not have enough point!", user);
   }
 }

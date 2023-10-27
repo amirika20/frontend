@@ -25,7 +25,7 @@ const deleteComment = async () => {
   <p>{{ props.comment.content }}</p>
   <div class="base">
     <menu v-if="props.comment.author == currentUsername">
-      <li><button class="btn-small pure-button" @click="emit('editComment', props.comment._id)">Edit</button></li>
+      <!-- <li><button class="btn-small pure-button" @click="emit('editComment', props.comment._id)">Edit</button></li> -->
       <li><button class="button-error btn-small pure-button" @click="deleteComment">Delete</button></li>
     </menu>
     <article class="timestamp">
